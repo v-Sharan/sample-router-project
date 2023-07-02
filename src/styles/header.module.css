@@ -11,7 +11,7 @@
 .logo {
   font-size: 1.5rem;
   color: white;
-  font-family: 'Fira', sans-serif;
+  font-family: "Fira", sans-serif;
   height: 100%;
   display: flex;
   justify-content: center;
@@ -27,5 +27,29 @@
 @media (min-width: 768px) {
   .logo {
     font-size: 2.5rem;
+  }
+}
+
+.navigation a {
+  text-decoration: none;
+  color: whitesmoke;
+  font-size: 1rem;
+}
+
+a:hover {
+  color: #74dacc;
+}
+
+.navigation .active {
+  color: #94fdfd;
+}
+
+@media (min-width: 768px) {
+  .logo {
+    font-size: 2.5rem;
+  }
+
+  .navigation a {
+    font-size: 1.5rem;
   }
 }
