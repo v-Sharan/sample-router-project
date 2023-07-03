@@ -13,6 +13,7 @@ const Event = () => {
   const event = getEventById(EventId);
 
   if (!event) {
+    // no event found
     return <p>No Event</p>;
   }
 
