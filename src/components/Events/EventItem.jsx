@@ -3,6 +3,8 @@ import AddressIcon from "../icons/address-icon";
 import ArrowIcon from "../icons/arrow-right-icon";
 import DateIcon from "../icons/date-icon";
 
+import Button from "../UI/button";
+
 import classes from "../../styles/EventItem.module.css";
 
 const EventItem = ({ event }) => {
@@ -16,10 +18,24 @@ const EventItem = ({ event }) => {
     <li className={classes.item}>
       <img src={event.image} alt={event.title} />
       <div className={classes.content}>
-        <h2>{event.title}</h2>
-        <div className={classes.date}>
-          <DateIcon />
-          <time>{readAbleDate}</time>
+        <div className={classes.summary}>
+          <h2>{event.title}</h2>
+          <div className={classes.date}>
+            <DateIcon />
+            <time>{readAbleDate}</time>
+          </div>
+          <div className={classes.address}>
+            <AddressIcon />
+            <address>{event.location}</address>
+          </div>
+        </div>
+        <div className={classes.actions}>
+          <Button link={`/events/${event.id}`}>
+            <span>Explore Event</span>
+            <span className={classes.icon}>
+              <ArrowIcon />
+            </span>
+          </Button>
         </div>
       </div>
     </li>
