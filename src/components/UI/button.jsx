@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import classes from "./button.module.css";
 
 const Button = ({ children, link, onClick }) => {
-  if (link) {
+  if (link && !onClick) {
     return (
       <Link to={link} className={classes.btn}>
         {children}
