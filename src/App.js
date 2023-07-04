@@ -20,8 +20,6 @@ const App = () => {
         <Route path="/events/:EventId" element={<Event />} />
         <Route path="/AddEvent" element={<h1>Add Event Form</h1>} />
       </Routes>
-      {/* <h1>Value {value}</h1>
-      <Button onClick={() => dispatch(incrementPayload(2))}>Increment</Button> */}
     </main>
   );
 };
