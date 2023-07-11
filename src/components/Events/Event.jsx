@@ -1,21 +1,47 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 import classes from "../../styles/Event.module.css";
+import Button from "../UI/button";
 
 import AddressIcon from "../icons/address-icon";
 import DateIcon from "../icons/date-icon";
-import { getEventById } from "../../dummyData";
 
 const Event = () => {
   const { EventId } = useParams();
+  const [event, setEvent] = useState([]);
+  const navigation = useNavigate();
 
-  const event = getEventById(EventId);
+  const fetchDataById = (id) => {
+    axios
+      .get(
+        `https://moviedatabase-c8855-default-rtdb.asia-southeast1.firebasedatabase.app/event/${id}.json`
+      )
+      .then((data) => setEvent(data.data))
+      .catch((err) => console.log(err));
+  };
+
+  useEffect(() => {
+    if (EventId) {
+      //true
+      fetchDataById(EventId);
+    }
+  }, [EventId]);
 
   if (!event) {
     // no event found
     return <p>No Event</p>;
   }
+
+  const handleDelete = (id) => {
+    axios
+      .delete(
+        `https://moviedatabase-c8855-default-rtdb.asia-southeast1.firebasedatabase.app/event/${id}.json`
+      )
+      .then((res) => navigation("/"))
+      .catch((err) => console.log(err));
+  };
 
   const readAbleDate = new Date(event.date).toLocaleDateString("en-us", {
     date: "numeric",
@@ -49,7 +75,26 @@ const Event = () => {
           </li>
         </ul>
       </section>
-      <div className={classes.content}>{event.description}</div>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          gap: 20,
+        }}
+      >
+        <Button onClick={() => navigation(`/edit/${EventId}`)}>Edit</Button>
+        <Button
+          onClick={() => {
+            const permission = window.confirm("Are you sure want to delete");
+            if (permission) {
+              handleDelete(EventId);
+            }
+          }}
+        >
+          Delete
+        </Button>
+      </div>
+      <div className={classes.content}>{event.discription}</div>
     </>
   );
 };

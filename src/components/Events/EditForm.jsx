@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import classes from "../../styles/form.module.css";
+import { useNavigate, useParams } from "react-router-dom";
 import Button from "../UI/button";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 
-const AddEventForm = () => {
+const EditForm = () => {
   const navigation = useNavigate();
+  const { EventId } = useParams();
   const [form, setForm] = useState({
     title: "",
     discription: "",
@@ -14,16 +15,37 @@ const AddEventForm = () => {
     image: "",
   });
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  const fetchData = (id) => {
     axios
-      .post(
-        "https://moviedatabase-c8855-default-rtdb.asia-southeast1.firebasedatabase.app/event.json",
-        form
+      .get(
+        `https://moviedatabase-c8855-default-rtdb.asia-southeast1.firebasedatabase.app/event/${id}.json`
       )
-      .then((res) => navigation("/"))
+      .then((data) => {
+        setForm(data.data);
+        console.log(data.data);
+      })
       .catch((err) => console.log(err));
   };
+
+  const handleEdit = (e) => {
+    e.preventDefault();
+    console.log(form);
+    axios
+      .put(
+        `https://moviedatabase-c8855-default-rtdb.asia-southeast1.firebasedatabase.app/event/${EventId}.json`,
+        form
+      )
+      .then((data) => navigation("/"))
+      .catch((err) => console.log(err));
+  };
+
+  useEffect(() => {
+    if (EventId) {
+      fetchData(EventId);
+    }
+  }, [EventId]);
+
+  const handleSubmit = () => {};
 
   return (
     <form className={classes.app} onSubmit={handleSubmit}>
@@ -88,10 +110,10 @@ const AddEventForm = () => {
         </div>
       </div>
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
-        <Button>Add Event</Button>
+        <Button onClick={handleEdit}>Save Event</Button>
       </div>
     </form>
   );
 };
 
-export default AddEventForm;
+export default EditForm;
